@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const ChatClient = () => {
+function App() {
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
 
-  // Получение списка сообщений чата при загрузке компонента
   useEffect(() => {
     fetchMessages();
   }, []);
 
-  // Функция для получения списка сообщений чата с сервера
   const fetchMessages = async () => {
     try {
       const response = await axios.get("http://localhost:8080/messages");
-      setMessages(response.data.split("\n"));
+      setMessages(response.data);
     } catch (error) {
       console.error("Ошибка при получении сообщений:", error);
     }
   };
 
-  // Функция для отправки нового сообщения в чат
-  const sendMessage = async () => {
+  const postMessage = async (message) => {
     try {
-      await axios.post("http://localhost:8080/messages", newMessage);
-      setNewMessage(""); // Сброс поля ввода
-      fetchMessages(); // Обновление списка сообщений
+      await axios.post("http://localhost:8080/messages", { message });
+      console.log("Сообщение успешно добавлено");
+      fetchMessages(); // Обновление списка сообщений после отправки нового сообщения
     } catch (error) {
-      console.error("Ошибка при отправке сообщения:", error);
+      console.error("Ошибка при добавлении сообщения:", error);
     }
   };
 
@@ -35,18 +31,23 @@ const ChatClient = () => {
     <div>
       <h1>Чат</h1>
       <div>
-        {messages.map((message, index) => (
-          <div key={index}>{message}</div>
+        {messages && messages.map((message, index) => (
+          <p key={index}>{message}</p>
         ))}
       </div>
-      <input
-        type="text"
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-      />
-      <button onClick={sendMessage}>Отправить</button>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const message = e.target.elements.message.value;
+          postMessage(message);
+          e.target.reset();
+        }}
+      >
+        <input type="text" name="message" placeholder="Введите сообщение" />
+        <button type="submit">Отправить</button>
+      </form>
     </div>
   );
-};
+}
 
-export default ChatClient;
+export default App;
