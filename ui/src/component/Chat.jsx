@@ -6,13 +6,13 @@ export default function Chat({ users, messages, userName,messageHelper }) {
     const [text, setMessage] = useState('')
     const messagesRef = useRef(null)
     const areaHelper = (e) => {
-        console.log(messages);
+        // console.log(messages);
         setMessage(e.target.value)
     }
     const sendHelper = () => {
         // эмитит серверу о новом сообщении, и тот раскидывает это всем кроме отправителя через useEffect
         socket.emit('ROOM:NEW_MESSAGE', { userName, text, roomId: 1 }) 
-        messageHelper({ userName, text })
+        messageHelper({ userName, text }) // обновляет компонент стора
         setMessage('') // clear input component
     }
     useEffect(()=>{
