@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import connectSocket from '../socket';
 import axios from 'axios'
 import '../scss/join.scss'
+import socket from '../socket';
 
 
 export default function JoinComponent({ onlogin,users }) {
@@ -17,6 +18,7 @@ export default function JoinComponent({ onlogin,users }) {
     setUserName(event.target.value)
   }
   const onJoin = async () => {
+    console.log(socket)
     if (!roomId || !userName) { return alert('Fill field') }
     setLoading(prev => !prev)
     const obj = { roomId, userName }

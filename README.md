@@ -1,6 +1,6 @@
 # -React--Chat
 
-Chat for integration in app.
+Chat
 
 ## Frontend: React + Redux + Vite
 
