@@ -18,7 +18,7 @@ function App() {
     await axios.post('http://localhost:3000/rooms', { roomId, userName })
     socket.emit('ROOM:JOIN', { roomId, userName })
     const res = await axios.get(`http://localhost:3000/rooms/${roomId}`);
-    console.log("res",res.data);
+    console.log("resR",res.data);
     if (res.data.messages.length > 0 ) {dispatch(setMessages(res.data.messages))}
     
     dispatch(setUsers({ users: [...res.data.users] }))
@@ -26,15 +26,19 @@ function App() {
     
   }
   const messageHelper = (messages) => {
-    dispatch(setMessages(messages))
+    console.log("Rafu", messages)
+    dispatch(updateMessages(messages))
   }
   useEffect(() => {
     // onlogin({ roomId: 1, userName: 'Rafu' }) // point of entry, later throw in login page
+    // это прослушивание работает у всех кроме отправителя
     socket.on('ROOM:SET_USERS', (users) => {
       dispatch(setUsers({ users }))
+      // console.log("RAfu")
+      console.log("useEfCheck",users)
     })
     socket.on('ROOM:NEW_MESSAGE', (messages) => {
-      console.log('get',messages);
+      console.log('ROOM:NEW_MESSAGE-Check',messages);
       dispatch(updateMessages(messages))
     })
   }, [])

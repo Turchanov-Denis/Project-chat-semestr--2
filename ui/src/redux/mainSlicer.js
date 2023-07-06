@@ -20,7 +20,7 @@ export const mainSlicer = createSlice({
       state.users = action.payload.users
     },
     setMessages(state, action) {
-      console.log('setMessages',action.payload);
+      console.log('setMessages[store]',action.payload);
       state.messages = action.payload
     },
     updateMessages(state, action) {

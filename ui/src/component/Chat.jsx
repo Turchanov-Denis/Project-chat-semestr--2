@@ -10,9 +10,10 @@ export default function Chat({ users, messages, userName,messageHelper }) {
         setMessage(e.target.value)
     }
     const sendHelper = () => {
-        socket.emit('ROOM:NEW_MESSAGE', { userName, text, roomId: 1 })
+        // эмитит серверу о новом сообщении, и тот раскидывает это всем кроме отправителя через useEffect
+        socket.emit('ROOM:NEW_MESSAGE', { userName, text, roomId: 1 }) 
         messageHelper({ userName, text })
-        setMessage('')
+        setMessage('') // clear input component
     }
     useEffect(()=>{
         messagesRef.current.scrollTo(0,99999)

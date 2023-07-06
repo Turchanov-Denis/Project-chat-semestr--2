@@ -33,6 +33,7 @@ io.on('connection', (socket) => {
         socket.join(roomId)
         rooms.get(roomId).get('users').set(socket.id, userName)
         const users = [...rooms.get(roomId).get('users').values()]
+        // console.log("RAfus")
         socket.to(roomId).emit('ROOM:SET_USERS', users)
     }
     )
