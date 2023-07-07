@@ -29,7 +29,7 @@ export default function Chat({messages,postMessage }) {
             </div> */}
             <div className='chat__messages'>
                 <div ref={messagesRef} className='messages'>
-                    {messages.length > 0 && messages.map(message => <div className='message'><p>{message}</p> <div><span>{message.userName +'    '+ (new Date().toString().slice(0, 21))}</span></div></div>)}
+                    {messages && messages.map(message => <div className='message'><p>{message}</p> <div><span>{message.userName +'    '+ (new Date().toString().slice(0, 21))}</span></div></div>)}
                     
                 </div>
                 <div className='chat__field'>

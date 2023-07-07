@@ -6,7 +6,12 @@ function App() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    fetchMessages();
+    fetchMessages(); // Запускаем первоначальный запрос
+    const intervalId = setInterval(fetchMessages, 10000); // Устанавливаем интервал на 5 секунд
+
+    return () => {
+      clearInterval(intervalId); // Очищаем интервал при размонтировании компонента
+    };
   }, []);
 
   const fetchMessages = async () => {

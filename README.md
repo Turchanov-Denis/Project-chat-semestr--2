@@ -4,7 +4,7 @@ Chat
 
 ## Frontend: React + Redux + Vite
 
-## Backend: Node.js + Express + Socket.IO
+## Backend: Httplib + sqlite3
 
 
 Loggin: 
