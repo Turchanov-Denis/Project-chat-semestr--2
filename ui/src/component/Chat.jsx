@@ -1,8 +1,7 @@
 import React from 'react'
 import { useState,useRef,useEffect } from 'react'
 import '../scss/chat.scss'
-import socket from '../socket.js'
-export default function Chat({ users, messages, userName,messageHelper }) {
+export default function Chat({messages,postMessage }) {
     const [text, setMessage] = useState('')
     const messagesRef = useRef(null)
     const areaHelper = (e) => {
@@ -10,25 +9,27 @@ export default function Chat({ users, messages, userName,messageHelper }) {
         setMessage(e.target.value)
     }
     const sendHelper = () => {
-        // эмитит серверу о новом сообщении, и тот раскидывает это всем кроме отправителя через useEffect
-        socket.emit('ROOM:NEW_MESSAGE', { userName, text, roomId: 1 }) 
-        messageHelper({ userName, text }) // обновляет компонент стора
-        setMessage('') // clear input component
+        
+        
+        postMessage( text ) // обновляет компонент стора
+        
     }
     useEffect(()=>{
         messagesRef.current.scrollTo(0,99999)
     },[messages])
     return (
+        <>
+        <h1> Chat </h1>
         <div className='chat'>
-            <div className='chat__users'>
+            {/* <div className='chat__users'>
                 <b>{`Users (${users.length}):`}</b>
                 <ul>
                     {users.length > 0 && users.map((user, index) => <li key={index}>{user}</li>)}
                 </ul>
-            </div>
+            </div> */}
             <div className='chat__messages'>
                 <div ref={messagesRef} className='messages'>
-                    {messages.length > 0 && messages.map(message => <div className='message'><p>{message.text}</p> <div><span>{message.userName +'    '+ (new Date()).getHours() + ':' + (new Date()).getMinutes() }</span></div></div>)}
+                    {messages.length > 0 && messages.map(message => <div className='message'><p>{message}</p> <div><span>{message.userName +'    '+ (new Date().toString().slice(0, 21))}</span></div></div>)}
                     
                 </div>
                 <div className='chat__field'>
@@ -40,5 +41,6 @@ export default function Chat({ users, messages, userName,messageHelper }) {
                 </div>
             </div>
         </div>
+        </>
     )
 }

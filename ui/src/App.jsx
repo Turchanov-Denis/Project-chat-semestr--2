@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import Chat from "./component/Chat";
+import './scss/style.scss'
 function App() {
   const [messages, setMessages] = useState([]);
 
@@ -28,24 +29,8 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Чат</h1>
-      <div>
-        {messages && messages.map((message, index) => (
-          <p key={index}>{message}</p>
-        ))}
-      </div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const message = e.target.elements.message.value;
-          postMessage(message);
-          e.target.reset();
-        }}
-      >
-        <input type="text" name="message" placeholder="Введите сообщение" />
-        <button type="submit">Отправить</button>
-      </form>
+    <div className="wrapper">
+      <Chat messages={messages} postMessage={postMessage}></Chat>
     </div>
   );
 }
