@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 cmake-build-debug
-server
+server/*
 include
+backend/*
