@@ -8,10 +8,6 @@
 #include "Logger.h"
 using json = nlohmann::json;
 
-// Простой класс логгера
-
-
-// Исключение для ошибок базы данных
 class DatabaseException : public std::exception {
 public:
     explicit DatabaseException(const std::string& errorMsg) : errorMsg_(errorMsg) {}
@@ -29,7 +25,7 @@ public:
     DatabaseManager(const std::string& dbFilePath, const std::string& logFile) : db_(nullptr), logger_(logFile) {
         int rc = sqlite3_open(dbFilePath.c_str(), &db_);
         if (rc != SQLITE_OK) {
-            std::string errorMsg = "Не удалось открыть базу данных: ";
+            std::string errorMsg = "Failed to open the database: ";
             errorMsg += sqlite3_errmsg(db_);
             logger_.log(errorMsg);
             throw DatabaseException(errorMsg);
@@ -50,7 +46,7 @@ public:
 
         int rc = sqlite3_exec(db_, sql.c_str(), selectCallback, &messages, &errorMsg);
         if (rc != SQLITE_OK) {
-            std::string errorMsgStr = "Ошибка выполнения запроса: ";
+            std::string errorMsgStr = "Error executing query: ";
             errorMsgStr += errorMsg;
             logger_.log(errorMsgStr);
             sqlite3_free(errorMsg);
@@ -65,7 +61,7 @@ public:
         sqlite3_stmt* stmt;
         int rc = sqlite3_prepare_v2(db_, sql.c_str(), -1, &stmt, nullptr);
         if (rc != SQLITE_OK) {
-            std::string errorMsg = "Ошибка при подготовке запроса: ";
+            std::string errorMsg = "Error preparing statement: ";
             errorMsg += sqlite3_errmsg(db_);
             logger_.log(errorMsg);
             throw DatabaseException(errorMsg);
@@ -77,7 +73,7 @@ public:
 
         rc = sqlite3_step(stmt);
         if (rc != SQLITE_DONE) {
-            std::string errorMsg = "Ошибка при выполнении запроса: ";
+            std::string errorMsg = "Error executing statement: ";
             errorMsg += sqlite3_errmsg(db_);
             logger_.log(errorMsg);
             sqlite3_finalize(stmt);

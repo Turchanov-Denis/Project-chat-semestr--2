@@ -16,12 +16,12 @@ public:
     void start(int port) {
         try {
             if (server_->listen("localhost", port)) {
-                std::cout << "Сервер запущен на порту " << port << std::endl;
+                std::cout << "Server is running on port " << port << std::endl;
             } else {
-                std::cerr << "Не удалось запустить сервер" << std::endl;
+                std::cerr << "Failed to start the server" << std::endl;
             }
         } catch (const std::exception& ex) {
-            std::cerr << "Ошибка при запуске сервера: " << ex.what() << std::endl;
+            std::cerr << "Error while starting the server: " << ex.what() << std::endl;
         }
     }
 
@@ -44,11 +44,11 @@ private:
             json messages = databaseManager_.getMessages();
             res.set_content(messages.dump(), "application/json");
         } catch (const DatabaseException& ex) {
-            std::string errorMsg = "Ошибка при получении сообщений из базы данных: " + std::string(ex.what());
+            std::string errorMsg = "Error retrieving messages from the database: " + std::string(ex.what());
             res.set_content(errorMsg, "text/plain");
             logger_.log(errorMsg);
         } catch (const std::exception& ex) {
-            std::string errorMsg = "Ошибка при получении сообщений из базы данных: " + std::string(ex.what());
+            std::string errorMsg = "Error retrieving messages from the database: " + std::string(ex.what());
             res.set_content(errorMsg, "text/plain");
             logger_.log(errorMsg);
         }
@@ -63,13 +63,13 @@ private:
         try {
             databaseManager_.addMessage(message, characterName, time);
             res.set_header("Access-Control-Allow-Origin", "*");
-            res.set_content("Сообщение успешно добавлено", "text/plain");
+            res.set_content("Message added successfully", "text/plain");
         } catch (const DatabaseException& ex) {
-            std::string errorMsg = "Ошибка при добавлении сообщения в базу данных: " + std::string(ex.what());
+            std::string errorMsg = "Error adding message to the database: " + std::string(ex.what());
             res.set_content(errorMsg, "text/plain");
             logger_.log(errorMsg);
         } catch (const std::exception& ex) {
-            std::string errorMsg = "Ошибка при добавлении сообщения в базу данных: " + std::string(ex.what());
+            std::string errorMsg = "Error adding message to the database: " + std::string(ex.what());
             res.set_content(errorMsg, "text/plain");
             logger_.log(errorMsg);
         }
@@ -91,7 +91,7 @@ int main() {
         ServerManager serverManager("chat.db", "server.log");
         serverManager.start(8080);
     } catch (const std::exception& ex) {
-        std::cerr << "Ошибка при запуске сервера: " << ex.what() << std::endl;
+        std::cerr << "Error while starting the server: " << ex.what() << std::endl;
     }
 
     return 0;

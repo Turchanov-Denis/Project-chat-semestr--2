@@ -1,10 +1,21 @@
 # -React--Chat
 
-Chat
-
 ## Frontend: React + Redux + Vite
 
 ## Backend: Httplib + sqlite3
+
+Usage:
+
+Server:
+    build Cmake project [for developers]
+
+Client:
+```
+cd ui
+npm i
+npm run dev
+```
+
 
 
 Loggin: 
