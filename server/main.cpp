@@ -6,11 +6,9 @@
 
 using json = nlohmann::json;
 
-
-// Управляющий класс сервера
 class ServerManager {
 public:
-    ServerManager(const std::string& dbFilePath) : databaseManager_(dbFilePath) {
+    ServerManager(const std::string& dbFilePath, const std::string& logFile) : databaseManager_(dbFilePath, logFile) {
         server_ = std::make_unique<httplib::Server>();
         setupRoutes();
     }
@@ -66,7 +64,7 @@ private:
 };
 
 int main() {
-    ServerManager serverManager("chat.db");
+    ServerManager serverManager("chat.db", "server.log");
     serverManager.start(8080);
 
     return 0;

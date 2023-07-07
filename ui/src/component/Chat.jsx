@@ -10,6 +10,7 @@ export default function Chat({messages,postMessage }) {
     }
     const sendHelper = () => {
         postMessage(text, new Date().toString().slice(0, 21))
+        setMessage('')
     }
     useEffect(()=>{
         messagesRef.current.scrollTo(0,99999)
