@@ -24,5 +24,4 @@ dist-ssr
 *.sw?
 cmake-build-debug
 server/*
-include
 backend/*
