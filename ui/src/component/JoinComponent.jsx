@@ -1,29 +1,20 @@
 import React from 'react'
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import connectSocket from '../socket';
 import axios from 'axios'
 import '../scss/join.scss'
-import socket from '../socket';
 
 
-export default function JoinComponent({ onlogin,users }) {
+export default function JoinComponent({ onlogin,setCharacterName }) {
   const [roomId, setRoomId] = useState(1)
   const [userName, setUserName] = useState('')
   const [loading, setLoading] = useState(true)
-  const inputRoomHandler = (event) => {
-    setRoomId(event.target.value)
-  }
   const inputNameHandler = (event) => {
     setUserName(event.target.value)
   }
   const onJoin = async () => {
-    console.log(socket)
-    if (!roomId || !userName) { return alert('Fill field') }
-    setLoading(prev => !prev)
-    const obj = { roomId, userName }
-    await axios.post('http://localhost:3000/rooms', { roomId, userName })
-    onlogin(obj)
+    onlogin(prev => !prev)
+    setCharacterName(userName)
   }
   return (
     <div className='join'>

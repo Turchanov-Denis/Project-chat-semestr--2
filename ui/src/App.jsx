@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Chat from "./component/Chat";
+import JoinComponent from "./component/JoinComponent";
 import './scss/style.scss'
 function App() {
   const [messages, setMessages] = useState([]);
   const [characterName, setCharacterName] = useState('Rafu');
+  const [login, setLogin] = useState(false);
   useEffect(() => {
     fetchMessages(); // Запускаем первоначальный запрос
     const intervalId = setInterval(fetchMessages, 10000); // Устанавливаем интервал на 5 секунд
@@ -37,7 +39,7 @@ function App() {
 
   return (
     <div className="wrapper">
-      <Chat messages={messages} postMessage={postMessage}></Chat>
+      {(login)?<Chat messages={messages} postMessage={postMessage}></Chat>:<JoinComponent onlogin={setLogin} setCharacterName={setCharacterName}></JoinComponent>}
     </div>
   );
 }
